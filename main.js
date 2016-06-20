@@ -38,6 +38,24 @@ var Quiz = {
     });
   },
 
+  welcomeMessage: function () {
+    swal({
+      title: "Hello!",
+      text: "Please tell us your first name:",
+      type: "input",
+      closeOnConfirm: false,
+      animation: "slide-from-top",
+      inputPlaceholder: "Your first name here"
+    }, function(inputValue){
+        if (inputValue === false) return false;
+        if (inputValue === "") {
+               swal.showInputError("You need to write something!");
+               return false;
+             }
+             $('.title').text('Welcome to the Quiz, ' + inputValue + '!');
+            swal("Thanks " + inputValue + "!", "Please start at Quiz 1 and work your way though the game!", "success"); });
+  },
+
   endOfQuiz: function() {
     swal({
       title: "Finished!",
@@ -46,8 +64,12 @@ var Quiz = {
     });
     $('#possible-answers').empty();
     $('#question').empty();
+    $('.hide-this').toggle();
     Quiz.questionCounter = 0;
     localStorage['quizCompleted' + Quiz.quizID] = true;
+    if(localStorage.quizCompleted5 === 'true') {
+      $('#questions').append('<h2 id="restart">Congratulations on completing all five quizzes. Click here if you wish to reset all quizzes and try to beat your previous score!</h2>');
+    }
   },
 
   correctAlert: function() {
@@ -58,7 +80,7 @@ var Quiz = {
       confirmButtonText: "Next Question"
     }, function() {
       localStorage.userScore = Number(localStorage.userScore) + 1;
-      $('#current-score').text("Current Score: " + localStorage.userScore);
+      $('#current-score').text(localStorage.userScore);
       Quiz.questionCounter++;
       Quiz.getQuestion(Quiz.questionIDs);
 
@@ -120,6 +142,8 @@ var Quiz = {
     Quiz.quiz = Quiz.quizzes.find(findQuiz);
     Quiz.questionIDs = Quiz.quiz.question_ids;
 
+    $('.hide-this').toggle();
+
     // with quiz array, get the first question with answers
     Quiz.getQuestion(Quiz.questionIDs);
 
@@ -140,8 +164,9 @@ var Quiz = {
     }
   },
 
-  resetLocalStorage: function () {
+  resetQuiz: function () {
     localStorage.clear();
+    document.location.reload(true);
   }
 
 };
@@ -150,7 +175,11 @@ $(document).ready(function() {
 
   Quiz.getQuiz();
   Quiz.getQuestions();
-  Quiz.resetLocalStorage();
+  Quiz.welcomeMessage();
+
+  $('body').on('click', '#restart', function () {
+    Quiz.resetQuiz();
+  });
 
   $('body').on('click', '.quiz-list-item', function() {
     Quiz.quizID = $(this).data('quiz');

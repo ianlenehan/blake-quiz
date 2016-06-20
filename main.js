@@ -53,7 +53,7 @@ var Quiz = {
                return false;
              }
              $('.title').text('Welcome to the Quiz, ' + inputValue + '!');
-            swal("Thanks " + inputValue + "!", "Please start at Quiz 1 and work your way though the game!", "success"); });
+            swal("Thanks " + inputValue + "!", "Please start at Quiz 1 and work your way though the game. You may remind yourself of your score by clicking on a Quiz title after you have completed it.", "success"); });
   },
 
   endOfQuiz: function() {
@@ -132,7 +132,8 @@ var Quiz = {
       swal("Not yet!", "Please complete Quiz " + (quizID - 1) + " before attempting this quiz.", "error");
       return;
     } else if (thisCompleted === 'true') {
-      swal("Hold up!", "You've already completed this quiz. Nice try.", "error");
+      console.log(quizID);
+      swal("Results", "You scored " + localStorage['quiz' + quizID] + " points for this quiz.", "success");
       return;
     }
     // get the details of the quiz when a quiz is selected
@@ -176,6 +177,7 @@ $(document).ready(function() {
   Quiz.getQuiz();
   Quiz.getQuestions();
   Quiz.welcomeMessage();
+  // Quiz.resetQuiz();
 
   $('body').on('click', '#restart', function () {
     Quiz.resetQuiz();

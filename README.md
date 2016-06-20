@@ -30,3 +30,19 @@ Part 4 (Optional)
 -----------------
 
 Add a page to show the student's progress through all the quizzes and their scores for each quiz they have completed.
+
+- - - - - - - - - - - - - - -
+
+Ian Lenehan Notes
+------------------
+I set the quiz in the style of a single page app, simply using jQuery to update elements.
+
+* Part 1: a list of all quizzes is provided on page load. You view each individual quiz by clicking on a quiz name. On page load, the student is asked to enter their name. This is preserved in local storage and reflected on the page.
+
+* Part 2: A student is presented with the first question and the possible answers. Selecting an answer will indicate whether it's correct or incorrect and update both total points and quiz points.
+
+* Part 3: Only when a quiz is finished, will a student be able to select the next quiz to complete. If they try to select a quiz without completing the previous quiz, they will be instructed to complete the previous quiz first.
+
+* Part 4: Once a quiz has been completed, a student may double check their score by clicking on the quiz name.
+
+Once the quiz has been completed, the student may reset local storage to start again, or offer their friend the opportunity to compete. 

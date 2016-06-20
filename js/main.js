@@ -62,11 +62,13 @@ var Quiz = {
       text: "You scored " + localStorage['quiz' + Quiz.quizID] + " points.",
       type: "success"
     });
+    // reset game board
     $('#possible-answers').empty();
     $('#question').empty();
     $('.hide-this').toggle();
     Quiz.questionCounter = 0;
     localStorage['quizCompleted' + Quiz.quizID] = true;
+    // if all quizzes completed, add this
     if(localStorage.quizCompleted5 === 'true') {
       $('#questions').append('<h2 id="restart">Congratulations on completing all five quizzes. Click here if you wish to reset all quizzes and try to beat your previous score!</h2>');
     }
@@ -79,8 +81,10 @@ var Quiz = {
       type: "success",
       confirmButtonText: "Next Question"
     }, function() {
+      // increase current score
       localStorage.userScore = Number(localStorage.userScore) + 1;
       $('#current-score').text(localStorage.userScore);
+      // set up and fetch next question
       Quiz.questionCounter++;
       Quiz.getQuestion(Quiz.questionIDs);
 
@@ -94,12 +98,14 @@ var Quiz = {
       type: "error",
       confirmButtonText: "Next Question"
     }, function() {
+      // set up and fetch next question
       Quiz.questionCounter++;
       Quiz.getQuestion(Quiz.questionIDs);
     });
   },
 
   getQuestion: function(question) {
+    // if last question, run endOfQuiz fn
     if (Quiz.questionCounter >= Quiz.questionIDs.length) {
       setTimeout( function () {
         Quiz.endOfQuiz();
@@ -116,7 +122,7 @@ var Quiz = {
       $('#possible-answers').empty();
       $('#question').empty();
       $('#question').append(Quiz.questionArray.question);
-
+      // append possible answers
       for (var i = 0; i < Quiz.questionArray.answers.length; i++) {
         $('#possible-answers').append('<li class="answers" data-answer=' + i + '>' + Quiz.questionArray.answers[i] + '</li>');
       }
@@ -129,15 +135,17 @@ var Quiz = {
     // check if this quiz has been completed yet
     var thisCompleted = localStorage['quizCompleted' + quizID];
     if (prevCompleted !== 'true' && quizID > 1) {
+      // you can't skip ahead
       swal("Not yet!", "Please complete Quiz " + (quizID - 1) + " before attempting this quiz.", "error");
       return;
     } else if (thisCompleted === 'true') {
-      console.log(quizID);
+      // view results of past quizzes
       swal("Results", "You scored " + localStorage['quiz' + quizID] + " points for this quiz.", "success");
       return;
     }
-    // get the details of the quiz when a quiz is selected
+
     var findQuiz = function(quiz) {
+      // get the details of the quiz when a quiz is selected
       return quiz.id === quizID;
     };
     Quiz.quiz = Quiz.quizzes.find(findQuiz);
@@ -147,13 +155,13 @@ var Quiz = {
 
     // with quiz array, get the first question with answers
     Quiz.getQuestion(Quiz.questionIDs);
-
   },
 
   checkAnswer: function(answer) {
     var correctAnswerID = Quiz.questionArray.correct_answer;
     var correctAnswer = Quiz.questionArray.answers[correctAnswerID];
     if (answer === correctAnswerID) {
+      // if answer is correct, update or setup local storage for this quiz
       if (localStorage['quiz' + Quiz.quizID]) {
         localStorage['quiz' + Quiz.quizID] = Number(localStorage['quiz' + Quiz.quizID]) + 1;
       } else {

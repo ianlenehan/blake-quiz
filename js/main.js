@@ -10,7 +10,7 @@ var Quiz = {
 
   getQuiz: function() {
     $.ajax({
-      url: "quizzes.json",
+      url: "../quizzes.json",
       type: 'GET',
       dataType: 'json',
     }).done(function(result) {
@@ -29,7 +29,7 @@ var Quiz = {
 
   getQuestions: function() {
     $.ajax({
-      url: "questions.json",
+      url: "../questions.json",
       type: 'GET',
       dataType: 'json',
     }).done(function(result) {
@@ -177,7 +177,6 @@ $(document).ready(function() {
   Quiz.getQuiz();
   Quiz.getQuestions();
   Quiz.welcomeMessage();
-  // Quiz.resetQuiz();
 
   $('body').on('click', '#restart', function () {
     Quiz.resetQuiz();

@@ -22,8 +22,10 @@ var Quiz = {
     // builds the list of all quizes to choose from
     for (var i = 0; i < Quiz.quizzes.length; i++) {
       $('#quiz-list').append('<li class="quiz-list-item" data-quiz=' + Quiz.quizzes[i].id + '>' + Quiz.quizzes[i].title + '</li>');
-      localStorage['quizCompleted' + [i + 1]] = false;
-      localStorage.userScore = 0;
+      if (!localStorage.name) {
+        localStorage['quizCompleted' + [i + 1]] = false;
+        localStorage.userScore = 0;
+      }
     }
   },
 
@@ -39,6 +41,11 @@ var Quiz = {
   },
 
   welcomeMessage: function () {
+    if(localStorage.name) {
+      $('.title').text('Welcome to the Quiz, ' + localStorage.name + '!');
+      $('#current-score').text(localStorage.userScore);
+      return;
+    }
     swal({
       title: "Hello!",
       text: "Please tell us your first name:",
@@ -52,8 +59,10 @@ var Quiz = {
                swal.showInputError("You need to write something!");
                return false;
              }
-             $('.title').text('Welcome to the Quiz, ' + inputValue + '!');
-            swal("Thanks " + inputValue + "!", "Please start at Quiz 1 and work your way though the game. You may remind yourself of your score by clicking on a Quiz title after you have completed it.", "success"); });
+            $('.title').text('Welcome to the Quiz, ' + inputValue + '!');
+            swal("Thanks " + inputValue + "!", "Please start at Quiz 1 and work your way though the game. You may remind yourself of your score by clicking on a Quiz title after you have completed it.", "success");
+            localStorage.name = inputValue;
+          });
   },
 
   endOfQuiz: function() {

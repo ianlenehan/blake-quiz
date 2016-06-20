@@ -45,4 +45,4 @@ I set the quiz in the style of a single page app, simply using jQuery to update 
 
 * Part 4: Once a quiz has been completed, a student may double check their score by clicking on the quiz name.
 
-Once the quiz has been completed, the student may reset local storage to start again, or offer their friend the opportunity to compete. 
+Once the quiz has been completed, the student may reset local storage to start again. Otherwise, local storage will persist all data with a page refresh. Reset can only be done when the quiz has been completed. 
